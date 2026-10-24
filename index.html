@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activity 1: Digital Eco-Curtain Reveal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Bubblegum+Sans&display=swap');
+
+    body {
+      font-family: 'Fredoka', sans-serif;
+    }
+
+    .font-fun {
+      font-family: 'Bubblegum Sans', cursive, sans-serif;
+    }
+
+    /* Custom smooth transition for curtain reveal */
+    .curtain-cover {
+      transition: height 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    /* Custom colorful range slider */
+    input[type=range] {
+      accent-color: #ec4899;
+    }
+
+    /* Sparkle Float Animation */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(5deg); }
+    }
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-yellow-200 via-emerald-200 via-sky-200 to-pink-200 min-h-screen p-4 sm:p-6 flex flex-col items-center justify-between selection:bg-pink-300">
+
+  <!-- Header Section -->
+  <header class="text-center max-w-3xl my-2">
+    <div class="inline-block bg-white/80 backdrop-blur-md border-4 border-yellow-300 rounded-3xl px-6 py-3 shadow-xl">
+      <h1 class="text-3xl sm:text-5xl font-fun font-bold text-emerald-700 tracking-wide drop-shadow-md flex items-center justify-center gap-3">
+        <span class="animate-bounce">🌱</span> Digital Eco-Curtain Reveal <span class="animate-bounce">✨</span>
+      </h1>
+      <p class="text-slate-700 text-sm sm:text-base mt-1 font-semibold">
+        Set Induction: Slide the curtain bit by bit (25% ➔ 50% ➔ 75% ➔ 100%) so pupils can guess the mystery item!
+      </p>
+    </div>
+  </header>
+
+  <!-- Audio Control Section -->
+  <div class="bg-gradient-to-r from-amber-300 via-orange-300 to-amber-300 border-4 border-white rounded-full px-6 py-2.5 my-3 flex items-center gap-3 shadow-lg transform hover:scale-105 transition-all">
+    <span class="text-amber-950 font-bold text-base sm:text-lg flex items-center gap-1 font-fun">
+      🎵 Background Tune:
+    </span>
+    <button id="audioToggleBtn" onclick="toggleTune()" class="bg-emerald-500 hover:bg-emerald-600 active:scale-95 text-white font-bold px-5 py-2 rounded-full text-sm sm:text-base transition-all shadow-md flex items-center gap-2 border-2 border-white">
+      <span id="audioIcon">▶️</span> <span id="audioText">Play "Mulberry Bush" Tune</span>
+    </button>
+  </div>
+
+  <!-- Cards Container -->
+  <main class="w-full max-w-6xl my-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 justify-items-center">
+
+      <!-- Card 1: Newspaper -->
+      <div class="bg-white/90 backdrop-blur-sm border-4 border-pink-400 rounded-3xl p-5 shadow-2xl w-full max-w-sm flex flex-col justify-between items-center relative overflow-hidden transform hover:-translate-y-1 transition-all">
+        
+        <!-- Image & Curtain Box -->
+        <div class="w-full h-64 bg-slate-100 rounded-2xl relative overflow-hidden border-4 border-pink-200 shadow-inner group">
+          <!-- Real Photo -->
+          <img src="https://www.sinarharian.com.my/uploads/images/2023/06/09/2224452.jpg" 
+               alt="Newspaper" 
+               class="w-full h-full object-cover"
+               onerror="this.src='https://placehold.co/600x400/e2e8f0/1e293b?text=Newspaper+Photo'">
+          
+          <!-- Vibrant Curtain Overlay -->
+          <div id="curtain1" class="curtain-cover absolute top-0 left-0 w-full bg-gradient-to-br from-purple-600 via-fuchsia-600 to-pink-600 text-white flex flex-col items-center justify-center z-10 shadow-2xl border-b-4 border-yellow-300" style="height: 100%;">
+            <span class="text-6xl mb-1 drop-shadow-lg animate-float">❓</span>
+            <span class="text-3xl font-fun font-bold tracking-wider uppercase drop-shadow-md text-yellow-300">ITEM #1</span>
+            <span class="text-xs font-bold bg-white/20 backdrop-blur-md border border-white/40 px-3 py-1 rounded-full mt-2 text-yellow-100">Can you guess what I am?</span>
+          </div>
+        </div>
+
+        <!-- Reveal Controls (Step-by-Step) -->
+        <div class="w-full mt-4 bg-pink-50 border-2 border-pink-200 rounded-2xl p-3 flex flex-col gap-2">
+          <div class="flex justify-between items-center text-xs font-bold text-pink-900">
+            <span class="font-fun text-sm">Curtain Open:</span>
+            <span id="percentText1" class="bg-pink-500 text-white px-2.5 py-0.5 rounded-full font-mono">0%</span>
+          </div>
+          
+          <!-- Range Slider -->
+          <input type="range" id="slider1" min="0" max="100" value="0" oninput="updateCurtain('1', this.value)" class="w-full cursor-pointer h-2 bg-pink-200 rounded-lg appearance-none">
+          
+          <!-- Quick Preset Buttons -->
+          <div class="grid grid-cols-4 gap-1.5 text-xs font-bold mt-1">
+            <button onclick="setCurtain('1', 25)" class="bg-white hover:bg-pink-200 border-2 border-pink-300 py-1.5 rounded-xl text-pink-700 shadow-sm transition-all active:scale-95">25%</button>
+            <button onclick="setCurtain('1', 50)" class="bg-white hover:bg-pink-200 border-2 border-pink-300 py-1.5 rounded-xl text-pink-700 shadow-sm transition-all active:scale-95">50%</button>
+            <button onclick="setCurtain('1', 75)" class="bg-white hover:bg-pink-200 border-2 border-pink-300 py-1.5 rounded-xl text-pink-700 shadow-sm transition-all active:scale-95">75%</button>
+            <button onclick="setCurtain('1', 100)" class="bg-pink-500 hover:bg-pink-600 text-white py-1.5 rounded-xl shadow-md transition-all active:scale-95">100%</button>
+          </div>
+        </div>
+
+        <!-- Mystery Placeholder / Secret Answer Panel -->
+        <div class="w-full mt-3 min-h-[90px] flex items-center justify-center">
+          <!-- Shown BEFORE 100% Reveal -->
+          <div id="mysteryBox1" class="bg-yellow-100 border-2 border-dashed border-yellow-400 rounded-2xl p-3 text-center w-full">
+            <p class="text-amber-800 font-fun text-lg font-bold">🔍 Mystery Item #1</p>
+            <p class="text-amber-600 text-xs font-medium">Open 100% to reveal the answer!</p>
+          </div>
+
+          <!-- Revealed ONLY AFTER 100% Reveal -->
+          <div id="answerBox1" class="hidden bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-400 rounded-2xl p-3 text-center w-full shadow-md animate-fade-in">
+            <h2 class="text-xl font-bold text-slate-800 font-fun">Old Newspaper</h2>
+            <p class="text-slate-600 text-xs font-bold">Material: <span class="text-blue-600 uppercase font-black">PAPER</span></p>
+            <div class="bg-blue-500 text-white font-bold px-3 py-1 rounded-full text-xs shadow inline-block mt-1 font-fun tracking-wide">
+              👋 Action: SORT (Folding)
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Card 2: Plastic Bottle -->
+      <div class="bg-white/90 backdrop-blur-sm border-4 border-sky-400 rounded-3xl p-5 shadow-2xl w-full max-w-sm flex flex-col justify-between items-center relative overflow-hidden transform hover:-translate-y-1 transition-all">
+        
+        <!-- Image & Curtain Box -->
+        <div class="w-full h-64 bg-slate-100 rounded-2xl relative overflow-hidden border-4 border-sky-200 shadow-inner group">
+          <!-- Real Photo -->
+          <img src="https://inocycle.com/wp-content/uploads/2021/05/botol-pet-2-1.png" 
+               alt="Plastic Bottle" 
+               class="w-full h-full object-contain p-2"
+               onerror="this.src='https://placehold.co/600x400/e2e8f0/1e293b?text=Plastic+Bottle+Photo'">
+          
+          <!-- Vibrant Curtain Overlay -->
+          <div id="curtain2" class="curtain-cover absolute top-0 left-0 w-full bg-gradient-to-br from-cyan-600 via-teal-600 to-sky-600 text-white flex flex-col items-center justify-center z-10 shadow-2xl border-b-4 border-yellow-300" style="height: 100%;">
+            <span class="text-6xl mb-1 drop-shadow-lg animate-float">❓</span>
+            <span class="text-3xl font-fun font-bold tracking-wider uppercase drop-shadow-md text-yellow-300">ITEM #2</span>
+            <span class="text-xs font-bold bg-white/20 backdrop-blur-md border border-white/40 px-3 py-1 rounded-full mt-2 text-yellow-100">Can you guess what I am?</span>
+          </div>
+        </div>
+
+        <!-- Reveal Controls (Step-by-Step) -->
+        <div class="w-full mt-4 bg-sky-50 border-2 border-sky-200 rounded-2xl p-3 flex flex-col gap-2">
+          <div class="flex justify-between items-center text-xs font-bold text-sky-900">
+            <span class="font-fun text-sm">Curtain Open:</span>
+            <span id="percentText2" class="bg-sky-500 text-white px-2.5 py-0.5 rounded-full font-mono">0%</span>
+          </div>
+          
+          <!-- Range Slider -->
+          <input type="range" id="slider2" min="0" max="100" value="0" oninput="updateCurtain('2', this.value)" class="w-full cursor-pointer h-2 bg-sky-200 rounded-lg appearance-none">
+          
+          <!-- Quick Preset Buttons -->
+          <div class="grid grid-cols-4 gap-1.5 text-xs font-bold mt-1">
+            <button onclick="setCurtain('2', 25)" class="bg-white hover:bg-sky-200 border-2 border-sky-300 py-1.5 rounded-xl text-sky-700 shadow-sm transition-all active:scale-95">25%</button>
+            <button onclick="setCurtain('2', 50)" class="bg-white hover:bg-sky-200 border-2 border-sky-300 py-1.5 rounded-xl text-sky-700 shadow-sm transition-all active:scale-95">50%</button>
+            <button onclick="setCurtain('2', 75)" class="bg-white hover:bg-sky-200 border-2 border-sky-300 py-1.5 rounded-xl text-sky-700 shadow-sm transition-all active:scale-95">75%</button>
+            <button onclick="setCurtain('2', 100)" class="bg-sky-500 hover:bg-sky-600 text-white py-1.5 rounded-xl shadow-md transition-all active:scale-95">100%</button>
+          </div>
+        </div>
+
+        <!-- Mystery Placeholder / Secret Answer Panel -->
+        <div class="w-full mt-3 min-h-[90px] flex items-center justify-center">
+          <!-- Shown BEFORE 100% Reveal -->
+          <div id="mysteryBox2" class="bg-yellow-100 border-2 border-dashed border-yellow-400 rounded-2xl p-3 text-center w-full">
+            <p class="text-amber-800 font-fun text-lg font-bold">🔍 Mystery Item #2</p>
+            <p class="text-amber-600 text-xs font-medium">Open 100% to reveal the answer!</p>
+          </div>
+
+          <!-- Revealed ONLY AFTER 100% Reveal -->
+          <div id="answerBox2" class="hidden bg-gradient-to-r from-orange-50 to-amber-50 border-2 border-orange-400 rounded-2xl p-3 text-center w-full shadow-md animate-fade-in">
+            <h2 class="text-xl font-bold text-slate-800 font-fun">Plastic Bottle</h2>
+            <p class="text-slate-600 text-xs font-bold">Material: <span class="text-orange-600 uppercase font-black">PLASTIC</span></p>
+            <div class="bg-orange-500 text-white font-bold px-3 py-1 rounded-full text-xs shadow inline-block mt-1 font-fun tracking-wide">
+              ✊ Action: CRUSH
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Card 3: Glass Jar -->
+      <div class="bg-white/90 backdrop-blur-sm border-4 border-amber-400 rounded-3xl p-5 shadow-2xl w-full max-w-sm flex flex-col justify-between items-center relative overflow-hidden transform hover:-translate-y-1 transition-all">
+        
+        <!-- Image & Curtain Box -->
+        <div class="w-full h-64 bg-slate-100 rounded-2xl relative overflow-hidden border-4 border-amber-200 shadow-inner group">
+          <!-- Real Photo (Updated URL) -->
+          <img src="https://tipitrubbishremoval.com.au/wp-content/uploads/2022/06/glass-recycling-why-you-shouldnt-throw-glass-rubbish-in-the-bin-1.jpeg" 
+               alt="Glass Jar" 
+               class="w-full h-full object-cover"
+               onerror="this.src='https://placehold.co/600x400/e2e8f0/1e293b?text=Glass+Jar+Photo'">
+          
+          <!-- Vibrant Curtain Overlay -->
+          <div id="curtain3" class="curtain-cover absolute top-0 left-0 w-full bg-gradient-to-br from-amber-500 via-orange-500 to-rose-500 text-white flex flex-col items-center justify-center z-10 shadow-2xl border-b-4 border-yellow-300" style="height: 100%;">
+            <span class="text-6xl mb-1 drop-shadow-lg animate-float">❓</span>
+            <span class="text-3xl font-fun font-bold tracking-wider uppercase drop-shadow-md text-yellow-300">ITEM #3</span>
+            <span class="text-xs font-bold bg-white/20 backdrop-blur-md border border-white/40 px-3 py-1 rounded-full mt-2 text-yellow-100">Can you guess what I am?</span>
+          </div>
+        </div>
+
+        <!-- Reveal Controls (Step-by-Step) -->
+        <div class="w-full mt-4 bg-amber-50 border-2 border-amber-200 rounded-2xl p-3 flex flex-col gap-2">
+          <div class="flex justify-between items-center text-xs font-bold text-amber-900">
+            <span class="font-fun text-sm">Curtain Open:</span>
+            <span id="percentText3" class="bg-amber-500 text-white px-2.5 py-0.5 rounded-full font-mono">0%</span>
+          </div>
+          
+          <!-- Range Slider -->
+          <input type="range" id="slider3" min="0" max="100" value="0" oninput="updateCurtain('3', this.value)" class="w-full cursor-pointer h-2 bg-amber-200 rounded-lg appearance-none">
+          
+          <!-- Quick Preset Buttons -->
+          <div class="grid grid-cols-4 gap-1.5 text-xs font-bold mt-1">
+            <button onclick="setCurtain('3', 25)" class="bg-white hover:bg-amber-200 border-2 border-amber-300 py-1.5 rounded-xl text-amber-700 shadow-sm transition-all active:scale-95">25%</button>
+            <button onclick="setCurtain('3', 50)" class="bg-white hover:bg-amber-200 border-2 border-amber-300 py-1.5 rounded-xl text-amber-700 shadow-sm transition-all active:scale-95">50%</button>
+            <button onclick="setCurtain('3', 75)" class="bg-white hover:bg-amber-200 border-2 border-amber-300 py-1.5 rounded-xl text-amber-700 shadow-sm transition-all active:scale-95">75%</button>
+            <button onclick="setCurtain('3', 100)" class="bg-amber-500 hover:bg-amber-600 text-white py-1.5 rounded-xl shadow-md transition-all active:scale-95">100%</button>
+          </div>
+        </div>
+
+        <!-- Mystery Placeholder / Secret Answer Panel -->
+        <div class="w-full mt-3 min-h-[90px] flex items-center justify-center">
+          <!-- Shown BEFORE 100% Reveal -->
+          <div id="mysteryBox3" class="bg-yellow-100 border-2 border-dashed border-yellow-400 rounded-2xl p-3 text-center w-full">
+            <p class="text-amber-800 font-fun text-lg font-bold">🔍 Mystery Item #3</p>
+            <p class="text-amber-600 text-xs font-medium">Open 100% to reveal the answer!</p>
+          </div>
+
+          <!-- Revealed ONLY AFTER 100% Reveal -->
+          <div id="answerBox3" class="hidden bg-gradient-to-r from-amber-50 to-yellow-50 border-2 border-amber-500 rounded-2xl p-3 text-center w-full shadow-md animate-fade-in">
+            <h2 class="text-xl font-bold text-slate-800 font-fun">Glass Jar</h2>
+            <p class="text-slate-600 text-xs font-bold">Material: <span class="text-amber-700 uppercase font-black">GLASS</span></p>
+            <div class="bg-amber-600 text-white font-bold px-3 py-1 rounded-full text-xs shadow inline-block mt-1 font-fun tracking-wide">
+              🧼 Action: RINSE
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Reset All Button -->
+  <footer class="my-4">
+    <button onclick="resetAllCurtains()" class="bg-rose-500 hover:bg-rose-600 active:scale-95 text-white font-fun text-lg font-bold px-8 py-3 rounded-2xl transition-all shadow-xl flex items-center gap-2 border-2 border-white">
+      <span>🔄</span> Reset All Curtains
+    </button>
+  </footer>
+
+  <script>
+    // Curtain Reveal Logic
+    function updateCurtain(id, val) {
+      const curtain = document.getElementById('curtain' + id);
+      const percentText = document.getElementById('percentText' + id);
+      const mysteryBox = document.getElementById('mysteryBox' + id);
+      const answerBox = document.getElementById('answerBox' + id);
+      const slider = document.getElementById('slider' + id);
+
+      // Reduce curtain height from 100% to 0% as value increases from 0 to 100
+      const remainingHeight = 100 - val;
+      curtain.style.height = remainingHeight + '%';
+      percentText.textContent = val + '%';
+      slider.value = val;
+
+      // Unhide answer panel ONLY at 100% reveal
+      if (parseInt(val) === 100) {
+        mysteryBox.classList.add('hidden');
+        answerBox.classList.remove('hidden');
+      } else {
+        mysteryBox.classList.remove('hidden');
+        answerBox.classList.add('hidden');
+      }
+    }
+
+    function setCurtain(id, val) {
+      updateCurtain(id, val);
+    }
+
+    function resetAllCurtains() {
+      for (let i = 1; i <= 3; i++) {
+        setCurtain(i.toString(), 0);
+      }
+    }
+
+    // Web Audio Synthesizer for "Here We Go Round the Mulberry Bush"
+    let audioCtx = null;
+    let isPlaying = false;
+    let timerId = null;
+
+    const notes = [
+      { f: 392.00, d: 0.3 }, // G4
+      { f: 392.00, d: 0.3 }, // G4
+      { f: 392.00, d: 0.3 }, // G4
+      { f: 440.00, d: 0.3 }, // A4
+      { f: 392.00, d: 0.3 }, // G4
+      { f: 349.23, d: 0.3 }, // F4
+      { f: 329.63, d: 0.6 }, // E4
+      { f: 261.63, d: 0.6 }, // C4
+      { f: 349.23, d: 0.3 }, // F4
+      { f: 349.23, d: 0.3 }, // F4
+      { f: 349.23, d: 0.6 }, // F4
+      { f: 329.63, d: 0.3 }, // E4
+      { f: 329.63, d: 0.3 }, // E4
+      { f: 329.63, d: 0.6 }  // E4
+    ];
+
+    function playNote(freq, duration) {
+      if (!audioCtx) return;
+      try {
+        let osc = audioCtx.createOscillator();
+        let gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function playMelody() {
+      let index = 0;
+      function next() {
+        if (!isPlaying) return;
+        let note = notes[index];
+        playNote(note.f, note.d);
+        index = (index + 1) % notes.length;
+        timerId = setTimeout(next, note.d * 1000 + 100);
+      }
+      next();
+    }
+
+    function toggleTune() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      
+      isPlaying = !isPlaying;
+      const audioText = document.getElementById('audioText');
+      const audioIcon = document.getElementById('audioIcon');
+      const audioBtn = document.getElementById('audioToggleBtn');
+
+      if (isPlaying) {
+        playMelody();
+        audioText.textContent = "Pause Melody";
+        audioIcon.textContent = "⏸️";
+        audioBtn.classList.remove('bg-emerald-500', 'hover:bg-emerald-600');
+        audioBtn.classList.add('bg-rose-500', 'hover:bg-rose-600');
+      } else {
+        clearTimeout(timerId);
+        audioText.textContent = 'Play "Mulberry Bush" Tune';
+        audioIcon.textContent = "▶️";
+        audioBtn.classList.remove('bg-rose-500', 'hover:bg-rose-600');
+        audioBtn.classList.add('bg-emerald-500', 'hover:bg-emerald-600');
+      }
+    }
+  </script>
+</body>
+</html>
